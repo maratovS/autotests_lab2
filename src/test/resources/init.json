@@ -1,0 +1,26 @@
+[
+  {
+    "firstNum": "15",
+    "firstNumSystem": 10,
+    "secondNum": "20",
+    "secondNumSystem": 10,
+    "operation": "+",
+    "result": "35"
+  },
+  {
+    "firstNum": "15",
+    "firstNumSystem": 10,
+    "secondNum": "20",
+    "secondNumSystem": 10,
+    "operation": "-",
+    "result": "-5"
+  },
+  {
+    "firstNum": "15",
+    "firstNumSystem": 10,
+    "secondNum": "20",
+    "secondNumSystem": 10,
+    "operation": "-",
+    "result": "-5"
+  }
+]

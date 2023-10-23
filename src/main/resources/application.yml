@@ -1,0 +1,15 @@
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/calculator
+    username: postgres
+    password: 13297
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+  liquibase:
+    enabled: false
+    change-log: classpath:liquibase/migration.sql
