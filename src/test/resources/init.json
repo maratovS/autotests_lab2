@@ -22,5 +22,201 @@
     "secondNumSystem": 10,
     "operation": "-",
     "result": "-5"
+  },
+  {
+    "firstNum": "FFF",
+    "firstNumSystem": 16,
+    "secondNum": "20",
+    "secondNumSystem": 8,
+    "operation": "-",
+    "result": "4079"
+  },
+  {
+    "firstNum": "101010101",
+    "firstNumSystem": 2,
+    "secondNum": "22134",
+    "secondNumSystem": 8,
+    "operation": "-"
+  },
+  {
+    "firstNum": "1",
+    "firstNumSystem": 2,
+    "secondNum": "2",
+    "secondNumSystem": 8,
+    "operation": "*",
+    "result": "2"
+  },
+  {
+    "firstNum": "3",
+    "firstNumSystem": 10,
+    "secondNum": "32",
+    "secondNumSystem": 16,
+    "operation": "*",
+    "result": "150"
+  },
+  {
+    "firstNum": "15",
+    "firstNumSystem": 10,
+    "secondNum": "20",
+    "secondNumSystem": 10,
+    "operation": "+",
+    "result": "35"
+  },
+  {
+    "firstNum": "15",
+    "firstNumSystem": 10,
+    "secondNum": "20",
+    "secondNumSystem": 10,
+    "operation": "-",
+    "result": "-5"
+  },
+  {
+    "firstNum": "15",
+    "firstNumSystem": 10,
+    "secondNum": "20",
+    "secondNumSystem": 10,
+    "operation": "-",
+    "result": "-5"
+  },
+  {
+    "firstNum": "FFF",
+    "firstNumSystem": 16,
+    "secondNum": "20",
+    "secondNumSystem": 8,
+    "operation": "-",
+    "result": "4079"
+  },
+  {
+    "firstNum": "101010101",
+    "firstNumSystem": 2,
+    "secondNum": "22134",
+    "secondNumSystem": 8,
+    "operation": "-"
+  },
+  {
+    "firstNum": "1",
+    "firstNumSystem": 2,
+    "secondNum": "2",
+    "secondNumSystem": 8,
+    "operation": "*",
+    "result": "2"
+  },
+  {
+    "firstNum": "3",
+    "firstNumSystem": 10,
+    "secondNum": "32",
+    "secondNumSystem": 16,
+    "operation": "*",
+    "result": "150"
+  },
+  {
+    "firstNum": "15",
+    "firstNumSystem": 10,
+    "secondNum": "20",
+    "secondNumSystem": 10,
+    "operation": "+",
+    "result": "35"
+  },
+  {
+    "firstNum": "15",
+    "firstNumSystem": 10,
+    "secondNum": "20",
+    "secondNumSystem": 10,
+    "operation": "-",
+    "result": "-5"
+  },
+  {
+    "firstNum": "15",
+    "firstNumSystem": 10,
+    "secondNum": "20",
+    "secondNumSystem": 10,
+    "operation": "-",
+    "result": "-5"
+  },
+  {
+    "firstNum": "FFF",
+    "firstNumSystem": 16,
+    "secondNum": "20",
+    "secondNumSystem": 8,
+    "operation": "-",
+    "result": "4079"
+  },
+  {
+    "firstNum": "101010101",
+    "firstNumSystem": 2,
+    "secondNum": "22134",
+    "secondNumSystem": 8,
+    "operation": "-"
+  },
+  {
+    "firstNum": "1",
+    "firstNumSystem": 2,
+    "secondNum": "2",
+    "secondNumSystem": 8,
+    "operation": "*",
+    "result": "2"
+  },
+  {
+    "firstNum": "3",
+    "firstNumSystem": 10,
+    "secondNum": "32",
+    "secondNumSystem": 16,
+    "operation": "*",
+    "result": "150"
+  },
+  {
+    "firstNum": "15",
+    "firstNumSystem": 10,
+    "secondNum": "20",
+    "secondNumSystem": 10,
+    "operation": "+",
+    "result": "35"
+  },
+  {
+    "firstNum": "15",
+    "firstNumSystem": 10,
+    "secondNum": "20",
+    "secondNumSystem": 10,
+    "operation": "-",
+    "result": "-5"
+  },
+  {
+    "firstNum": "15",
+    "firstNumSystem": 10,
+    "secondNum": "20",
+    "secondNumSystem": 10,
+    "operation": "-",
+    "result": "-5"
+  },
+  {
+    "firstNum": "FFF",
+    "firstNumSystem": 16,
+    "secondNum": "20",
+    "secondNumSystem": 8,
+    "operation": "-",
+    "result": "4079"
+  },
+  {
+    "firstNum": "101010101",
+    "firstNumSystem": 2,
+    "secondNum": "22134",
+    "secondNumSystem": 8,
+    "operation": "-"
+  },
+  {
+    "firstNum": "1",
+    "firstNumSystem": 2,
+    "secondNum": "2",
+    "secondNumSystem": 8,
+    "operation": "*",
+    "result": "2"
+  },
+  {
+    "firstNum": "3",
+    "firstNumSystem": 10,
+    "secondNum": "32",
+    "secondNumSystem": 16,
+    "operation": "*",
+    "result": "150"
   }
 ]

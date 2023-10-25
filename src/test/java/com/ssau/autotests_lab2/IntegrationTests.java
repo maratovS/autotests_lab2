@@ -6,6 +6,7 @@ import com.ssau.autotests_lab2.db.repository.CalculationResultRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
@@ -19,9 +20,12 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @ContextConfiguration(initializers = {IntegrationTests.Initializer.class})
@@ -31,6 +35,8 @@ public class IntegrationTests {
     private CalculationResultRepository repo;
     @Autowired
     private ResourceLoader resourceLoader = null;
+    
+    private final int RECORDS_COUNT = 28;
     @Container
     public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13")
             .withDatabaseName("integration-tests-db")
@@ -58,10 +64,105 @@ public class IntegrationTests {
 
     @Test
     @Transactional
-    public void animalsCountShouldBeCorrect() {
+    public void checkCalculationResults(TestInfo testInfo) {
+        System.out.printf("Starting test -  \"%s\"%n", testInfo.getDisplayName());
         long count = repo.count();
-        assertEquals(3, count);
+        assertEquals(RECORDS_COUNT, count);
+        System.out.printf("Finishing test -  \"%s\"", testInfo.getDisplayName());
+    }
+
+    @Test
+    @Transactional
+    public void recordDeleteTest(TestInfo testInfo) {
+        System.out.printf("Starting test -  \"%s\"%n", testInfo.getDisplayName());
+        long count = repo.count();
+        assertEquals(RECORDS_COUNT, count);
+        repo.delete(repo.findAll().stream().findFirst().orElseThrow(() -> new RuntimeException(String.format("Record not found on test \"%s\"", testInfo.getDisplayName()))));
+        count = repo.count();
+        assertEquals(27, count);
+        System.out.printf("Finishing test -  \"%s\"", testInfo.getDisplayName());
     }
 
 
+    @Test
+    @Transactional
+    public void allRecordsDeleteTest(TestInfo testInfo) {
+        System.out.printf("Starting test -  \"%s\"%n", testInfo.getDisplayName());
+        long count = repo.count();
+        assertEquals(RECORDS_COUNT, count);
+        repo.deleteAll();
+        count = repo.count();
+        assertEquals(0, count);
+        System.out.printf("Finishing test -  \"%s\"", testInfo.getDisplayName());
+    }
+
+    @Test
+    @Transactional
+    public void addRecordDeleteTest(TestInfo testInfo) {
+        System.out.printf("Starting test -  \"%s\"%n", testInfo.getDisplayName());
+        long count = repo.count();
+        assertEquals(RECORDS_COUNT, count);
+
+        repo.save(new CalculationResult(
+                null,
+                "1",
+                2,
+                "1",
+                2,
+                "10",
+                "+" ,
+                LocalDateTime.now()
+
+        ));
+
+        count = repo.count();
+        assertEquals(RECORDS_COUNT + 1, count);
+        System.out.printf("Finishing test -  \"%s\"", testInfo.getDisplayName());
+    }
+
+    @Test
+    @Transactional
+    public void addRecordsDeleteTest(TestInfo testInfo) {
+        System.out.printf("Starting test -  \"%s\"%n", testInfo.getDisplayName());
+        long count = repo.count();
+        assertEquals(RECORDS_COUNT, count);
+
+        for (int i = 0; i < 10; i++) {
+            repo.save(new CalculationResult(
+                    null,
+                    String.valueOf(i),
+                    10,
+                    String.valueOf(i),
+                    10,
+                    String.valueOf(i + i),
+                    "+" ,
+                    LocalDateTime.now()
+
+            ));
+        }
+
+        count = repo.count();
+        assertEquals(28 +10, count);
+        System.out.printf("Finishing test -  \"%s\"", testInfo.getDisplayName());
+    }
+
+    @Test
+    @Transactional
+    public void updateRecordDeleteTest(TestInfo testInfo) {
+        System.out.printf("Starting test -  \"%s\"%n", testInfo.getDisplayName());
+        long count = repo.count();
+        assertEquals(RECORDS_COUNT, count);
+
+        Optional<CalculationResult> optFound = repo.findAll().stream().findFirst();
+        assertTrue(optFound.isPresent());
+        CalculationResult found = optFound.get();
+        found.setExecutionTime(LocalDateTime.now());
+        repo.save(found);
+
+        Optional<CalculationResult> optUpdated = repo.findById(found.getId());
+        assertTrue(optUpdated.isPresent());
+        CalculationResult updated = optFound.get();
+        assertEquals(found.getExecutionTime(), updated.getExecutionTime());
+        System.out.printf("Finishing test -  \"%s\"", testInfo.getDisplayName());
+    }
 }
