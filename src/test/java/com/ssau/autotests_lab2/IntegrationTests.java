@@ -3,17 +3,23 @@ package com.ssau.autotests_lab2;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssau.autotests_lab2.db.model.CalculationResult;
 import com.ssau.autotests_lab2.db.repository.CalculationResultRepository;
+import com.ssau.autotests_lab2.dto.CalculationDto;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
+import org.springframework.test.web.servlet.MvcResult;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -26,16 +32,25 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ContextConfiguration(initializers = {IntegrationTests.Initializer.class})
+@AutoConfigureMockMvc
 @Testcontainers
 public class IntegrationTests {
+
     @Autowired
     private CalculationResultRepository repo;
+
     @Autowired
     private ResourceLoader resourceLoader = null;
-    
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    ObjectMapper mapper = new ObjectMapper();
     private final int RECORDS_COUNT = 28;
     @Container
     public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13")
@@ -57,9 +72,32 @@ public class IntegrationTests {
     @BeforeEach
     public void addCalculationResults() throws IOException {
         File dataFile = resourceLoader.getResource("classpath:init.json").getFile();
-        ObjectMapper mapper = new ObjectMapper();
         CalculationResult[] results = mapper.readValue(dataFile, CalculationResult[].class);
         repo.saveAll(Arrays.stream(results).toList());
+    }
+
+
+    @Test
+    @Transactional
+    public void checkCalculationResultsMvc(TestInfo testInfo) throws Exception {
+        System.out.printf("Starting test -  \"%s\"%n", testInfo.getDisplayName());
+        this.mockMvc.perform(get("/list"))
+                .andDo(print())
+                .andExpect(status().isOk());
+        System.out.printf("Finishing test -  \"%s\"", testInfo.getDisplayName());
+    }
+
+    @Test
+    @Transactional
+    public void checkCalculationResultsValuesMvc(TestInfo testInfo) throws Exception {
+        System.out.printf("Starting test -  \"%s\"%n", testInfo.getDisplayName());
+        MvcResult result = this.mockMvc.perform(get("/list"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        CalculationDto[] dtos = mapper.readValue(result.getResponse().getContentAsString(), CalculationDto[].class);
+        assertEquals(RECORDS_COUNT, dtos.length);
+        System.out.printf("Finishing test -  \"%s\"", testInfo.getDisplayName());
     }
 
     @Test
