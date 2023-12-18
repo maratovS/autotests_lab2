@@ -43,8 +43,19 @@ public class CalculationController {
     public ResponseEntity<CalculationDto> getCalculation(@RequestBody CalculationDto calculationDto) {
         calculationDto = service.calculate(calculationDto);
         CalculationResult toEntity = mapper.map(calculationDto, CalculationResult.class);
-        toEntity.setExecutionTime(LocalDateTime.now());
         repo.save(toEntity);
-        return ResponseEntity.ok().body( mapper.map(toEntity, CalculationDto.class));
+        return ResponseEntity.ok().body(mapper.map(toEntity, CalculationDto.class));
+    }
+
+    @GetMapping("/result/{firstNum}&{secondNum}&{operation}&{system}")
+    public String getResult(
+            @PathVariable("firstNum") String firstNum,
+            @PathVariable("secondNum") String secondNum,
+            @PathVariable("operation") String operation,
+            @PathVariable("system") int system
+    ) {
+        CalculationResult toEntity = mapper.map(service.getResult(firstNum, secondNum, operation, system), CalculationResult.class);
+        repo.save(toEntity);
+        return toEntity.getResult();
     }
 }
