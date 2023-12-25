@@ -39,7 +39,7 @@ public class CalculationController {
         return ResponseEntity.ok().body(results);
     }
 
-    @GetMapping(value = "/calculate")
+    @PostMapping(value = "/calculate")
     public ResponseEntity<CalculationDto> getCalculation(@RequestBody CalculationDto calculationDto) {
         calculationDto = service.calculate(calculationDto);
         CalculationResult toEntity = mapper.map(calculationDto, CalculationResult.class);
@@ -57,5 +57,11 @@ public class CalculationController {
         CalculationResult toEntity = mapper.map(service.getResult(firstNum, secondNum, operation, system), CalculationResult.class);
         repo.save(toEntity);
         return toEntity.getResult();
+    }
+
+    @GetMapping("/byTime")
+    public ResponseEntity<List<CalculationDto>> getCalculationsByTime(@RequestParam LocalDateTime start, @RequestParam LocalDateTime end){
+        List<CalculationResult> results = service.getByTime(start, end);
+        return ResponseEntity.ok().body(results.stream().map(result -> mapper.map(result, CalculationDto.class)).toList());
     }
 }

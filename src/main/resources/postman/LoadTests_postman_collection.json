@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "897893ea-4162-449a-a220-5cfc1bd75f30",
+		"name": "LoadTests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "16675443"
+	},
+	"item": [
+		{
+			"name": "sum",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}api/result/{{fn}}&{{sn}}&{{operation}}&{{system}}"
+			},
+			"response": []
+		},
+		{
+			"name": "multiplication",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}api/result/{{fn}}&{{sn}}&{{operation}}&{{system}}"
+			},
+			"response": []
+		},
+		{
+			"name": "division",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}api/result/{{fn}}&{{sn}}&{{operation}}&{{system}}"
+			},
+			"response": []
+		},
+		{
+			"name": "subtraction",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}api/result/{{fn}}&{{sn}}&{{operation}}&{{system}}"
+			},
+			"response": []
+		},
+		{
+			"name": "timePeriod",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8191/api/byTime?start=19.10.2023,16:00:00&end=21.10.2023,23:00:00",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8191",
+					"path": [
+						"api",
+						"byTime"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "19.10.2023,16:00:00"
+						},
+						{
+							"key": "end",
+							"value": "21.10.2023,23:00:00"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.collectionVariables.set(",
+					"    \"BASE_URL\", ",
+					"    pm.environment.get(\"protocol\")+\"://\"+",
+					"    pm.environment.get(\"host\")+\":\"+",
+					"    pm.environment.get(\"port\")+\"/\"",
+					")",
+					"",
+					"let operation = {",
+					"  \"multiplication\": '*',",
+					"  \"division\": '÷',",
+					"  \"subtraction\": '-',",
+					"  \"sum\": '+'",
+					"}",
+					"",
+					"pm.collectionVariables.set(",
+					"    \"operation\", operation[request.name]",
+					")"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"expect that status code is 200\", ",
+					"    () => pm.response.to.have.status(200)",
+					")",
+					"",
+					"pm.test(\"expect response to not have status 404\", ",
+					"    () => pm.response.to.not.have.status(404)",
+					")",
+					"",
+					"pm.test(\"expect jsonData to equal correct value\", () => {",
+					"    let value = {",
+					"        \"multiplication\": 50,",
+					"        \"division\": 2,",
+					"        \"subtraction\": 5,",
+					"        \"sum\": 15,",
+					"        \"timePeriod\": [{\"id\":\"dc99ae6c-3a35-4841-8df4-c40486247686\",\"firstNum\":\"24\",\"firstNumSystem\":\"10\",\"secondNum\":\"45\",\"secondNumSystem\":\"10\",\"operation\":\"+\",\"result\":\"69\",\"dateTime\":\"20.10.2023,15:56:31\"},{\"id\":\"eb790adb-7817-48a2-a626-fde475a9c295\",\"firstNum\":\"24\",\"firstNumSystem\":\"10\",\"secondNum\":\"45\",\"secondNumSystem\":\"10\",\"operation\":\"+\",\"result\":\"69\",\"dateTime\":\"21.10.2023,15:56:31\"}]",
+					"    }",
+					"",
+					"    pm.expect(pm.response.json()).to.eql(value[request.name])",
+					"})",
+					"",
+					"pm.test(\"expect jsonData to not equal null\", ",
+					"    () => pm.expect(pm.response.json()).to.not.eql(null)",
+					")",
+					"",
+					"",
+					"",
+					"",
+					"",
+					"    // let operation = \"\";",
+					"    // let value = \"\";",
+					"    // const moment = require('moment');",
+					"    // switch(request.name) {",
+					"    //     case \"multiplication\": ",
+					"    //     operation = \"*\";",
+					"    //     value = 50;",
+					"    //     break;",
+					"    //     case \"division\": ",
+					"    //     operation = \"÷\";",
+					"    //     value = 2;",
+					"    //     break;",
+					"    //     case \"subtraction\": ",
+					"    //     operation = \"-\";",
+					"    //     value = 5;",
+					"    //     break;",
+					"    //     case \"sum\": ",
+					"    //     operation = \"+\";",
+					"    //     value = 15;",
+					"    //     break;",
+					"    // }",
+					"    // const addCalculation = {",
+					"    //     url: pm.collectionVariables.get(\"BASE_URL\") + \"api/calculation\",",
+					"    //     method: \"post\",",
+					"    //     body: {",
+					"    //         mode: 'raw',",
+					"    //         raw: JSON.stringify({",
+					"    //             'firstNum': pm.environment.get(\"fn\"), ",
+					"    //             'firstNumSystem': pm.environment.get(\"system\"),",
+					"    //             'secondNum': pm.environment.get(\"sn\"), ",
+					"    //             'secondNumSystem': pm.environment.get(\"system\"),",
+					"    //             'operation': operation, ",
+					"    //             'dateTime': moment().format(\"DD.MM.YYYY,HH:mm:ssZ\"),",
+					"    //             'result': jsonData",
+					"    //         })",
+					"    //     },",
+					"    //     header: {",
+					"    //         'Content-Type': 'application/json'",
+					"    //     }",
+					"    // };",
+					"    // pm.sendRequest(addCalculation);"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": ""
+		},
+		{
+			"key": "fn",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "sn",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "system",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "operation",
+			"value": ""
+		}
+	]
+}
