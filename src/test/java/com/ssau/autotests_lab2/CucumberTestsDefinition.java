@@ -110,7 +110,7 @@ public class CucumberTestsDefinition {
         response = RestAssured.given()
                 .header("Content-type", "application/json")
                 .and().body(mapper.writeValueAsString(createCalculationDto))
-                .when().get(url).then().extract().response();
+                .when().post(url).then().extract().response();
     }
 
     @Then("I should receive status code 200")
@@ -135,7 +135,7 @@ public class CucumberTestsDefinition {
         responseDate = RestAssured.given()
                 .header("Content-type", "application/json")
                 .and().body(mapper.writeValueAsString(createCalculationDto))
-                .when().get(url).then().extract().response();
+                .when().post(url).then().extract().response();
     }
 
     @Then("I receive status code 200")
@@ -155,9 +155,4 @@ public class CucumberTestsDefinition {
         Assertions.assertEquals("2023-12-11T13:14:17", getResponseDate().jsonPath().getString("executionTime"));
     }
 
-    @Before
-    public void cleanRepo() {
-        calculationRepository.deleteAll();
-        System.out.println("database cleared");
-    }
 }

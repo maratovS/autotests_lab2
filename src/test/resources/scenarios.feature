@@ -2,7 +2,7 @@ Feature: calculations
 
   Background: adding data into the database
     Given calculations table
-      | firstNum | firstNumSystem | secondNum | secondNumSystem | operation | result | executionTime             |
+      | firstNum | firstNumSystem | secondNum | secondNumSystem | operation | result | executionTime       |
       | 10       | 10             | 20        | 10              | +         | 30     | 2023-11-11T14:13:22 |
       | 101      | 2              | 11        | 2               | -         | 10     | 2023-12-11T16:13:22 |
       | 15       | 8              | 56        | 8               | *         | 1126   | 2023-12-11T17:13:22 |
